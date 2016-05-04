@@ -244,6 +244,34 @@ Response
 
 ```
 
+### (Set Source) SetMainTVSource
+Set TV to a different input.
+
+Request
+```
+POST /smp_4_ HTTP/1.0
+HOST: 192.168.1.126:7676
+CONTENT-LENGTH: 292
+CONTENT-TYPE: text/xml;charset="utf-8"
+USER-AGENT: DLNADOC/1.50 SEC_HHP_iPhone van Casper/1.0
+SOAPACTION: "urn:samsung.com:service:MainTVAgent2:1#SetMainTVSource"
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMainTVSource xmlns:u="urn:samsung.com:service:MainTVAgent2:1"><Source>HDMI2</Source><ID>58</ID><UiID>-1</UiID></u:SetMainTVSource></s:Body></s:Envelope>
+```
+Response
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+    <s:Body>
+        <u:SetMainTVSourceResponse xmlns:u="urn:samsung.com:service:MainTVAgent2:1">
+            <Result>OK</Result>
+        </u:SetMainTVSourceResponse>
+
+    </s:Body>
+
+</s:Envelope>
+```
+
 ## zeus-admin (port 9090)
 
 ### Channel List
@@ -259,8 +287,8 @@ Connection: close
 
 Raw DAT file
 ```
-O  ˛ˇÊ …Kˇˇ1        ƒ NPO 1 HD                                                                                 2           ˛ˇÊ  Kˇˇ2        ƒ NPO 2 HD                                                                                 2           ˛ˇÊ ÕKˇˇ3        ƒ NPO 3 HD                                                                                 2           ˛ˇ  Lˇˇ4        Ã RTL 4 HD                                                                                 5           ˛ˇ  Lˇˇ5        Ã RTL 5 HD                                                                                 5           ˛ˇ„ Kˇˇ6        Ã SBS6 HD                                                                                             ˛ˇ‚ ÌJˇˇ7        Ã RTL 7 HD                                                                                 @           ˛ˇÓ ÚKˇˇ8        Ã Veronica HD / Disney XD                                                                  4          	 ˛ˇÃ PJˇˇ9        Ã Net5 HD                                                                                            
- ˛ˇÏ ﬁKˇˇ10       Ã RTL 8 HD                                                                                 3           ˛ˇÀ kLˇˇ11       Ã FOX HD                                                                                   :           ˛ˇ‚ ˜Jˇˇ12       Ã RTL Z HD                                                                                 @          
+O˛ˇÊ…Kˇˇ1ƒNPO 1 HD2˛ˇÊ Kˇˇ2ƒNPO 2 HD2˛ˇÊÕKˇˇ3ƒNPO 3 HD2˛ˇ Lˇˇ4ÃRTL 4 HD5˛ˇ Lˇˇ5ÃRTL 5 HD5˛ˇ„Kˇˇ6ÃSBS6 HD˛ˇ‚ÌJˇˇ7ÃRTL 7 HD@˛ˇÓÚKˇˇ8ÃVeronica HD / Disney XD4	˛ˇÃPJˇˇ9ÃNet5 HD
+˛ˇÏﬁKˇˇ10ÃRTL 8 HD3˛ˇÀkLˇˇ11ÃFOX HD:˛ˇ‚˜Jˇˇ12ÃRTL Z HD@
 [omitted]
 ```
 
