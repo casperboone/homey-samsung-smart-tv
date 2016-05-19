@@ -1,0 +1,12 @@
+<p>Great! Homey is now connected to your TV, better known as <strong id="friendlyName"></strong>. By the way, the name of your model is <span id="modelName"></span>, just in case you forgot.</p>
+
+<button type="submit" id="close" class="button">Close Pairing Window</button>
+
+<script type="text/javascript">
+	$("#friendlyName").text(window.tvInfo.friendlyName);
+	$("#modelName").text(window.tvInfo.modelName);
+
+	$("#close").click(function () { 
+		Homey.done();
+	});
+</script>
