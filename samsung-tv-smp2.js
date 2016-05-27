@@ -42,14 +42,14 @@ SamsungTVSmp2.prototype.getTVInfo = function(callback, timeout) {
             
             xml2js.parseString(res.body, function (err, result) {
                 
-                if(err) {
+                if (err) {
                     
                     Homey.log("[GET TV INFO] " + err);
                     typeof callback === 'function' && callback(err, null);
                     
                 } else {
                     
-                    if(result['root']['device'][0]) {
+                    if (result != null && result['root']['device'][0]) {
                         
                         var tvInfo = {};
                         var rawTvInfo = result['root']['device'][0];
