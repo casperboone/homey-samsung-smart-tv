@@ -275,6 +275,18 @@ var self = module.exports = {
 			});
 			
 		});
+	},
+	
+	addDevice: function(ip, callback) {
+		
+		// Add to internal device array
+		self.tvs[ip] = {
+			id: ip,
+			ip: ip
+		};
+		
+		deviceAvailable(ip, callback)		
+		
 	}
 
 }
@@ -325,11 +337,6 @@ function deviceUpdateAvailability(ip, callback) {
 			if(!tv.available) {
 				
 				tv.available = true;
-				
-				//Homey.log(Homey.manager('drivers'));
-				//Homey.log(Homey.manager('drivers').getDriver("192.168.1.126"));
-				
-				//Homey.manager('drivers').getDriver("192.168.1.126").setUnavailable();
 				
 				Homey.manager('drivers').getDriver('tv').setAvailable({id: ip});
 				

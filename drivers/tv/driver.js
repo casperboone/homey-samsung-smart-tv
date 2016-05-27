@@ -1,6 +1,6 @@
 "use strict";
 
-var Smp2 = require("./../../samsung-tv-smp2.js")
+var SamsungTVSmp2 = require("./../../samsung-tv-smp2.js")
 
 var self = module.exports = {
 	
@@ -32,17 +32,15 @@ var self = module.exports = {
 				
 				var ip = data.ip;
 				
-				(new Smp2(ip)).getTVInfo(function(err, data) {
+				Homey.log("IP ENTERED: " + ip);
+				
+				var smp2 = new SamsungTVSmp2(ip);
+				
+				smp2.getTVInfo(function(err, data) {
 					
 					if(!err) {
 						
-						Homey.app.tvs[ip] = {
-							data: {
-								id: ip,
-								ip: ip
-							},
-							name: data.friendlyName
-						};
+						Homey.app.addDevice(ip, function () {}); 
 						
 					}
 					

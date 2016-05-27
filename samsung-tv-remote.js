@@ -62,7 +62,7 @@ Remote.prototype.volumeDown = function () {
 
 Remote.prototype.powerOff = function () {
     
-    sendKey(this.remote, "KEY_POWER");
+    sendKey(this.remote, "KEY_POWEROFF");
     
 }
 
@@ -73,7 +73,6 @@ function sendKey(remote, key) {
         if (err) {
             
             Homey.log(err);
-            throw new Error(err);
             
         }
         
