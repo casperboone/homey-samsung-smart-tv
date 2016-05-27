@@ -47,25 +47,27 @@ SamsungTVSmp2.prototype.getTVInfo = function(callback, timeout) {
                     Homey.log("[GET TV INFO] " + err);
                     typeof callback === 'function' && callback(err, null);
                     
-                }
-                
-                if(result['root']['device'][0]) {
-                    
-                    var tvInfo = {};
-                    var rawTvInfo = result['root']['device'][0];
-                    
-                    for (var key in rawTvInfo) {
-                        if (rawTvInfo.hasOwnProperty(key)) {
-                            tvInfo[key] = rawTvInfo[key][0];
-                        }
-                    }
-                    
-                    typeof callback === 'function' && callback(err, tvInfo);
-                    
                 } else {
                     
-                    Homey.log("[GET TV INFO] Result loaded and xml parsed, but does not have expected nodes.");
-                    typeof callback === 'function' && callback("XML does not contain expected nodes", null);
+                    if(result['root']['device'][0]) {
+                        
+                        var tvInfo = {};
+                        var rawTvInfo = result['root']['device'][0];
+                        
+                        for (var key in rawTvInfo) {
+                            if (rawTvInfo.hasOwnProperty(key)) {
+                                tvInfo[key] = rawTvInfo[key][0];
+                            }
+                        }
+                        
+                        typeof callback === 'function' && callback(err, tvInfo);
+                        
+                    } else {
+                        
+                        Homey.log("[GET TV INFO] Result loaded and xml parsed, but does not have expected nodes.");
+                        typeof callback === 'function' && callback("XML does not contain expected nodes", null);
+                        
+                    }
                     
                 }
                 
