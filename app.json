@@ -1,16 +1,23 @@
 {
     "id": "nl.casperboone.samsungtv",
+    "version": "0.0.1",
     "name": {
         "en": "Samsung Smart TV"
     },
-    "version": "0.0.1",
+	"description": {
+		"en": "Control your Samsung Smart TV via Homey"
+	},
+	"category": "video",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Casper Boone",
-        "email": "athom@casperboone.nl"
+        "email": "homey@casperboone.nl"
     },
-    "permissions": [
-    ],
+    "permissions": [],
+	"images": {
+		"large": "./assets/images/large.jpg",
+		"small": "./assets/images/small.jpg"
+	},
 	"drivers": [
 		{
 			"id": "tv",
@@ -18,6 +25,10 @@
 			"capabilities": [ "onoff", "channel", "source", "volume_control" ],
 			"name": {
 				"en": "Samsung Smart TV"
+			},
+			"images": {
+				"large": "./drivers/tv/assets/images/large.jpg",
+				"small": "./drivers/tv/assets/images/small.jpg"
 			},
 			"pair": [
 		        {
