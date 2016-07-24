@@ -320,25 +320,34 @@ function deviceAvailable(ip, callback) {
  */
 function deviceUpdateAvailability(ip, callback) {
 	
+	Homey.log("DUA:step0");
+	
 	var tv = self.tvs[ip];
 	var smp2 = new SamsungTVSmp2(ip);
 	
 	smp2.getTVInfo(function(err, data) {
+		Homey.log("DUA:step1");
 		
 		if(err) {
 			
+			Homey.log("DUA:step1.5");
+			
 			tv.available = false;
-			Homey.manager('drivers').getDriver('tv').setUnavailable({id: ip});
+			Homey.manager('drivers').getDriver('tv').setUnavailable({id: ip, ip: ip});
 				
 			callback(false);
 			
 		} else {
 			
+			Homey.log("DUA:step2");
+			
 			if(!tv.available) {
+				
+				Homey.log("DUA:step3");
 				
 				tv.available = true;
 				
-				Homey.manager('drivers').getDriver('tv').setAvailable({id: ip});
+				Homey.manager('drivers').getDriver('tv').setAvailable({id: ip, ip: ip});
 				
 				// Set remote, smp2 and soap api instance
 				tv.remote = new SamsungTVRemote(ip);
@@ -347,6 +356,8 @@ function deviceUpdateAvailability(ip, callback) {
 				
 				// Retrieve sources
 				tv.sources = new SamsungTVSources(ip);
+				
+				Homey.log("DUA:step4");
 				
 				// Retrieve channels by first making sure channel list is available
 				tv.soapApi.getChannelListURL(function () {
