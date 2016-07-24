@@ -69,56 +69,60 @@ Sources.prototype.update = function () {
             
         } else {
                 
-            var sourceList = res['s:Envelope']['s:Body'][0]['u:GetSourceListResponse'][0]['SourceList'][0];
-            
-            xml2js.parseString(sourceList, function(err, res) {
+            if (res['s:Envelope']['s:Body'][0]['u:GetSourceListResponse']) {
                 
-                if (err) {
+                var sourceList = res['s:Envelope']['s:Body'][0]['u:GetSourceListResponse'][0]['SourceList'][0];
+                
+                xml2js.parseString(sourceList, function(err, res) {
                     
-                    Homey.log(err);
-                    
-                } else {
-                    
-                    var sources = res['SourceList']['Source'];
-                    
-                    sources.forEach(function (source) {
+                    if (err) {
                         
-                    object.sources[source.ID[0]] = new Source(source.ID[0], source.SourceType[0], (source.Connected[0]=="Yes"));
-                    
-                    }); 
-                    
-                    
-                    // Add device info to description if available
-                    object.api.getMBRDeviceList( function (err, res) {
+                        Homey.log(err);
                         
-                        var deviceList = res['s:Envelope']['s:Body'][0]['u:GetMBRDeviceListResponse'][0]['MBRDeviceList'][0];
+                    } else {
                         
-                        xml2js.parseString(deviceList, function(err, res) {
+                        var sources = res['SourceList']['Source'];
+                        
+                        sources.forEach(function (source) {
                             
-                            if (err) {
+                        object.sources[source.ID[0]] = new Source(source.ID[0], source.SourceType[0], (source.Connected[0]=="Yes"));
+                        
+                        }); 
+                        
+                        
+                        // Add device info to description if available
+                        object.api.getMBRDeviceList( function (err, res) {
+                            
+                            var deviceList = res['s:Envelope']['s:Body'][0]['u:GetMBRDeviceListResponse'][0]['MBRDeviceList'][0];
+                            
+                            xml2js.parseString(deviceList, function(err, res) {
                                 
-                                Homey.log(err);
-                                
-                            } else {
-                                
-                                var devices = res['MBRDeviceList']['MBRDevice'];
-                                
-                                devices.forEach(function (device) {
+                                if (err) {
                                     
-                                    object.sources[device.ID[0]].appendToDescription(" - " + device.DeviceType[0] + " - " + device.BrandName[0]);
+                                    Homey.log(err);
                                     
-                                });
+                                } else {
+                                    
+                                    var devices = res['MBRDeviceList']['MBRDevice'];
+                                    
+                                    devices.forEach(function (device) {
+                                        
+                                        object.sources[device.ID[0]].appendToDescription(" - " + device.DeviceType[0] + " - " + device.BrandName[0]);
+                                        
+                                    });
+                                    
+                                }
                                 
-                            }
+                            });
                             
                         });
                         
-                    });
+                        
+                    }
                     
-                    
-                }
+                });
                 
-            });
+            }
             
         }
         
