@@ -3,6 +3,7 @@
  */
 
 var SamsungRemote = require('./samsung-remote/samsung-remote.js');
+var LocalNetwork = require('./local-network.js');
 
 /**
  * Construct Remote
@@ -15,8 +16,8 @@ function Remote(ip) {
         ip: ip, 
         
         host: {
-            ip: ip,
-            mac: "00:00:00:00",
+            ip: LocalNetwork.ip(),
+            mac: LocalNetwork.mac(),
             name: "Homey"
         }
         
