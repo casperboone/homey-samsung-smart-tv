@@ -4,7 +4,7 @@
 Unfortunately Samsung has no uniform way of communication with their Smart TVs. Below are the expected supported capabilities per year of the model.
 
 ### 2011 or earlier
-Currently unknown, please let me know.
+Currently unknown, please [let me know](#contact-me).
 
 ### 2012
 * Toggle Mute
@@ -12,7 +12,7 @@ Currently unknown, please let me know.
 * Volume Down
 * Power Off
 
-_Not all capabilities are currently supported for this model. If you would like to help me make these features available to this model, please let me know._
+_Not all capabilities are currently supported for this model. If you would like to help me make these features available to this model, please [let me know](#contact-me)._
 
 ### 2013
 * Set Channel
@@ -26,7 +26,7 @@ _Not all capabilities are currently supported for this model. If you would like 
 * Set Channel (not confirmed)
 * Set Source
 
-_Not all capabilities are currently supported for this model. If you would like to help me make these features available to this model, please let me know._
+_Not all capabilities are currently supported for this model. If you would like to help me make these features available to this model, please [let me know](#contact-me)._
 
 ### 2015 or newer
 Not supported. Samsung TVs now run on Tizen which is for now outside the scope of this app.
