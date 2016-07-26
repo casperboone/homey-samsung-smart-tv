@@ -38,6 +38,6 @@ Not supported. Samsung TVs now run on Tizen which is for now outside the scope o
 
 ## Contact Me
 My intentions are to make the app available to as many people as possible. 
-In case you want to help me accomplish this by providing details about your unsupported tv, please contact me on the
-[Athom Community Slack (@casper)](https://athomcommunity.slack.com/messages/@casper) or send an e-mail to [homey@casperboone.nl](mailto:homey@casperboone.nl).
+In case you want to help me accomplish this by providing details about your unsupported tv, please contact me via [Gitter](https://gitter.im/casperboone/homey-samsung-smart-tv) or on the
+[Athom Community Slack (@casper)](https://athomcommunity.slack.com/messages/@casper).
 Also, feel free to send a PR of course, they are more than welcome.
