@@ -1,5 +1,7 @@
 # Samsung Smart TV for Homey
 
+[![Join the chat at https://gitter.im/casperboone/homey-samsung-smart-tv](https://badges.gitter.im/casperboone/homey-samsung-smart-tv.svg)](https://gitter.im/casperboone/homey-samsung-smart-tv?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Supported Models
 Unfortunately Samsung has no uniform way of communication with their Smart TVs. Below are the expected supported capabilities per year of the model.
 
