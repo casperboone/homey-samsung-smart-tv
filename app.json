@@ -22,7 +22,7 @@
 		{
 			"id": "tv",
 			"class": "tv",
-			"capabilities": [ "onoff", "channel", "source", "volume_control" ],
+			"capabilities": [],
 			"name": {
 				"en": "Samsung Smart TV"
 			},
