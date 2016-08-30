@@ -1,13 +1,18 @@
 # Samsung Smart TV for Homey
 
-[![Join the chat at https://gitter.im/casperboone/homey-samsung-smart-tv](https://badges.gitter.im/casperboone/homey-samsung-smart-tv.svg)](https://gitter.im/casperboone/homey-samsung-smart-tv?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Control your Samsung Smart TV via your Homey.
 
+After adding your TV to your devices, you will get flow cards for:
+* Changing the active source
+* Set your TV to a different channel
+* Power off
+* Change volume / mute
+
+There's much more possible, but I only included the most used actions. If you miss anything, feel free to open an issue or [contact me](#contact-me) directly.
 
 **Note: At the moment ONLY the F series is 'officially' supported**
 
-## Supported Models
+## Supported Series
 Unfortunately Samsung has no uniform way of communication with their Smart TVs. Below are the expected supported capabilities per year of the model.
 
 ### 2011 (D series) or earlier
@@ -38,12 +43,12 @@ _Not all capabilities are currently supported for this model. If you would like 
 ### 2015 (J/K series) or newer
 Not supported. Samsung TVs now run on Tizen which is for now outside the scope of this app.
 
-### Known Supported Models
+## Known Supported Models
 * UE46F6500 (2013)
-_Does the app work with your model? Please [let me know](#contact-me), so I can add it the model to the list.
+_Does the app work with your model? Please [let me know](#contact-me), so I can add it the model to the list._
 
 ## Contact Me
-My intentions are to make the app available to as many people as possible. 
-In case you want to help me accomplish this by providing details about your unsupported tv, please contact me via [Gitter](https://gitter.im/casperboone/homey-samsung-smart-tv) or on the
+My intentions are to make the app available to as many people as possible.
+In case you want to help me accomplish this by providing details about your unsupported tv, please contact me via [![Join the chat at https://gitter.im/casperboone/homey-samsung-smart-tv](https://badges.gitter.im/casperboone/homey-samsung-smart-tv.svg)](https://gitter.im/casperboone/homey-samsung-smart-tv?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or on the
 [Athom Community Slack (@casper)](https://athomcommunity.slack.com/messages/@casper).
 Also, feel free to send a PR of course, they are more than welcome.
