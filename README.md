@@ -12,6 +12,8 @@ There's much more possible, but I only included the most used actions. If you mi
 
 **Note: At the moment ONLY the F series is 'officially' supported**
 
+![Screenshot](https://raw.githubusercontent.com/casperboone/homey-samsung-smart-tv/master/assets/screenshot.png "Screenshot")
+
 ## Supported Series
 Unfortunately Samsung has no uniform way of communication with their Smart TVs. Below are the expected supported capabilities per year of the model.
 
