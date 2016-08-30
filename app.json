@@ -15,8 +15,8 @@
     },
     "permissions": [],
 	"images": {
-		"large": "./assets/images/large.jpg",
-		"small": "./assets/images/small.jpg"
+		"large": "./assets/appstore_large.png",
+		"small": "./assets/appstore_small.png"
 	},
 	"drivers": [
 		{
@@ -27,8 +27,8 @@
 				"en": "Samsung Smart TV"
 			},
 			"images": {
-				"large": "./drivers/tv/assets/images/large.jpg",
-				"small": "./drivers/tv/assets/images/small.jpg"
+				"large": "./drivers/tv/assets/large.png",
+				"small": "./drivers/tv/assets/small.png"
 			},
 			"pair": [
 		        {
