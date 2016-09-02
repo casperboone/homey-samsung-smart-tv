@@ -104,12 +104,16 @@ Sources.prototype.update = function () {
                                 } else {
                                     
                                     var devices = res['MBRDeviceList']['MBRDevice'];
-                                    
-                                    devices.forEach(function (device) {
+
+                                    if (devices) {
+
+                                        devices.forEach(function (device) {
+                                            
+                                            object.sources[device.ID[0]].appendToDescription(" - " + device.DeviceType[0] + " - " + device.BrandName[0]);
+                                            
+                                        });
                                         
-                                        object.sources[device.ID[0]].appendToDescription(" - " + device.DeviceType[0] + " - " + device.BrandName[0]);
-                                        
-                                    });
+                                    }
                                     
                                 }
                                 
