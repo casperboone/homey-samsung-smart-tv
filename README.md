@@ -47,6 +47,8 @@ Not supported. Samsung TVs now run on Tizen which is for now outside the scope o
 
 ## Known Supported Models
 * UE46F6500 (2013)
+* UE40F6400 (2013, thanks to [René Roelfsema](https://athomcommunity.slack.com/team/roelfsre) for reporting this)
+
 _Does the app work with your model? Please [let me know](#contact-me), so I can add it the model to the list._
 
 ## Contact Me
