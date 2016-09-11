@@ -46,8 +46,9 @@ _Not all capabilities are currently supported for this model. If you would like 
 Not supported. Samsung TVs now run on Tizen which is for now outside the scope of this app.
 
 ## Known Supported Models
-* UE46F6500 (2013)
 * UE40F6400 (2013, thanks to [René Roelfsema](https://athomcommunity.slack.com/team/roelfsre) for reporting this)
+* UE46F6500 (2013)
+* UE46F8000 (2013, thanks to [Roel Collignon](https://athomcommunity.slack.com/team/colligro) for reporting this)
 
 _Does the app work with your model? Please [let me know](#contact-me), so I can add it the model to the list._
 
