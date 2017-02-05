@@ -1,7 +1,7 @@
 var httpreq = require('httpreq');
 var xml2js = require('xml2js');
 
-var soapApiUrl = ":7676/smp_2_";
+var soapApiUrl = ":7676/smp_10_";
 
 function SamsungTVSmp2(ip) {
     Homey.log("smp2 constr: "+ ip);

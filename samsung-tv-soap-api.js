@@ -1,7 +1,7 @@
 var httpreq = require('httpreq');
 var xml2js = require('xml2js');
 
-var soapApiUrl = ":7676/smp_4_";
+var soapApiUrl = ":7676/smp_12_";
 
 function SamsungTVSoapAPI(ip) {
     

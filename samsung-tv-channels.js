@@ -1,6 +1,6 @@
 var httpreq = require('httpreq');
 
-var channelListUrl = ":9090/BinaryBlob/1/ChannelList.dat";
+var channelListUrl = ":9090/BinaryBlob/2/ChannelList.dat";
 
 /**
  * Define Channel Object
