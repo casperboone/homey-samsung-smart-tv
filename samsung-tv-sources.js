@@ -70,7 +70,7 @@ Sources.prototype.update = function () {
         } else {
 
             if (res['s:Envelope']['s:Body'][0]['u:GetSourceListResponse']) {
-
+             try {
                 var sourceList = res['s:Envelope']['s:Body'][0]['u:GetSourceListResponse'][0]['SourceList'][0];
 
                 xml2js.parseString(sourceList, function(err, res) {
@@ -132,7 +132,11 @@ Sources.prototype.update = function () {
                     }
 
                 });
-
+             }
+             catch(err) {
+             	  // Error with sourceList
+             	  Homey.log('Error with sourceList: ' + err);
+             	}
             }
 
         }
