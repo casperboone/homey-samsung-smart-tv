@@ -1,55 +1,39 @@
 "use strict";
 
-var SamsungTVSmp2 = require("./../../samsung-tv-smp2.js")
+const SamsungTVSmp2 = require("./../../samsung-tv-smp2.js")
 
-var self = module.exports = {
-	
-	init: function( devices_data, callback ) {
-		
-		devices_data.forEach(function(device_data){
-			module.exports.setUnavailable( device_data, "Offline" );
+module.exports = {
 
-			Homey.log(device_data);
-            Homey.app.tvs[device_data.ip] = device_data;
+	init(devicesData, callback) {
+		devicesData.forEach(deviceData => {
+			module.exports.setUnavailable(deviceData, "Offline");
+
+			Homey.log(deviceData);
+			Homey.app.tvs[deviceData.ip] = deviceData;
 		});
-		
-		
-		callback( true );
+
+		callback(true);
 	},
-	
-	deleted: function( device_data ) {
-		
-		delete Homey.app.tvs[ device_data.id ];
-		
+
+	deleted(deviceData) {
+		delete Homey.app.tvs[deviceData.id];
 	},
-	
-	pair: function( socket ) {
-		
-		socket
-			.on('ip_entered', function( data, callback ){
-				
-                Homey.log("ip_entered called");
-				
-				var ip = data.ip;
-				
-				Homey.log("IP ENTERED: " + ip);
-				
-				var smp2 = new SamsungTVSmp2(ip);
-				
-				smp2.getTVInfo(function(err, data) {
-					
-					if(!err) {
-						
-						Homey.app.addDevice(ip, function () {}); 
-						
-					}
-					
-					callback(err, data);
-					
-				});
-				
+
+	pair(socket) {
+		socket.on('ip_entered', (data, callback) => {
+ 			const ip = data.ip;
+			const smp2 = new SamsungTVSmp2(ip);
+
+			Homey.log("ip_entered called");
+			Homey.log("IP ENTERED: " + ip);
+
+			smp2.getTVInfo((err, data) => {
+				if(!err) {
+					Homey.app.addDevice(ip, () => {});
+				}
+				callback(err, data);
 			});
-		
+		});
 	}
-	
+
 }

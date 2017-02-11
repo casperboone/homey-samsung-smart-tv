@@ -1,33 +1,29 @@
-module.exports.mac = function () {
+"use strict";
 
-    var ifaces = require('os').networkInterfaces();
-    var result = "00:00:00:00";
-    
-    Object.keys(ifaces).forEach(function (ifname) {
-        ifaces[ifname].forEach(function (iface) {
-            if (iface.family === 'IPv4' && iface.internal === false) {
-                result = iface.mac;
-                return;
-            }
-        });
-    });
-    
-    return result;
+var networkInterface = getInterface();
+
+module.exports = {
+    mac() {
+        return networkInterface.mac ? networkInterface.mac : '00:00:00:00';
+    },
+
+    ip() {
+        return networkInterface.ip ? networkInterface.ip : '0.0.0.0';
+    }
 }
 
-module.exports.ip = function () {
-
+function getInterface() {
     var ifaces = require('os').networkInterfaces();
     var result = "0.0.0.0";
-    
-    Object.keys(ifaces).forEach(function (ifname) {
-        ifaces[ifname].forEach(function (iface) {
+
+    Object.keys(ifaces).forEach((ifname) => {
+        ifaces[ifname].forEach((iface) => {
             if (iface.family === 'IPv4' && iface.internal === false) {
-                result = iface.address;
+                result = iface;
                 return;
             }
         });
     });
-    
+
     return result;
 }

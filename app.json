@@ -44,7 +44,7 @@
 		}
 	],
     "flow" : {
-        "actions" : [
+        "actions": [
             {
 				"id": "set_channel",
 				"title": {
