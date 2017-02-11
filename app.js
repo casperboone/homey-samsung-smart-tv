@@ -193,6 +193,19 @@ const self = module.exports = {
                 callback("TV offline");
             });
         });
+
+        /**
+         * CONDITION: TV is on
+         */
+        Homey.manager('flow').on('condition.tv_is_available', (callback, args) => {
+            deviceAvailable(args.tv.ip, result => {
+                if (result) {
+                    callback(null, true);
+                    return;
+                }
+                callback(null, false);
+            });
+        });
     },
 
     addDevice(ip, callback) {
@@ -236,8 +249,11 @@ function deviceUpdateAvailability(ip, callback) {
         if (err) {
             Homey.log("DUA:step1.5");
 
-            tv.available = false;
-            Homey.manager('drivers').getDriver('tv').setUnavailable({id: ip, ip: ip});
+            if (tv.available) {
+                tv.available = false;
+                Homey.manager('drivers').getDriver('tv').setUnavailable({id: ip, ip: ip});
+                Homey.manager('flow').triggerDevice('tv_became_unavailable', {}, {}, {id: ip, ip: ip});
+            }
 
             callback(false);
             return;
@@ -245,8 +261,10 @@ function deviceUpdateAvailability(ip, callback) {
         Homey.log("DUA:step2");
         if (!tv.available) {
             Homey.log("DUA:step3");
+
             tv.available = true;
             Homey.manager('drivers').getDriver('tv').setAvailable({id: ip, ip: ip});
+            Homey.manager('flow').triggerDevice('tv_became_available', {}, {}, {id: ip, ip: ip});
 
             // Set remote, smp2 and soap api instance
             tv.remote = new SamsungTVRemote(ip);

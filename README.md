@@ -7,6 +7,7 @@ After adding your TV to your devices, you will get flow cards for:
 * Set your TV to a different channel
 * Power off
 * Change volume / mute
+* Changes in power status (if and when cards)
 
 There's much more possible, but I only included the most used actions. If you miss anything, feel free to open an issue or [contact me](#contact-me) directly.
 

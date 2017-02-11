@@ -4,165 +4,228 @@
     "name": {
         "en": "Samsung Smart TV"
     },
-	"description": {
-		"en": "Control your Samsung Smart TV via Homey"
-	},
-	"category": "video",
+    "description": {
+        "en": "Control your Samsung Smart TV via Homey"
+    },
+    "category": "video",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Casper Boone",
         "email": "homey@casperboone.nl"
     },
     "permissions": [],
-	"images": {
-		"large": "./assets/appstore_large.png",
-		"small": "./assets/appstore_small.png"
-	},
-	"drivers": [
-		{
-			"id": "tv",
-			"class": "tv",
-			"capabilities": [],
-			"name": {
-				"en": "Samsung Smart TV"
-			},
-			"images": {
-				"large": "./drivers/tv/assets/large.png",
-				"small": "./drivers/tv/assets/small.png"
-			},
-			"pair": [
-		        {
-		            "id": "enter_ip",
-		            "navigation": {
-		                "next": "accept_and_add"
-		            }
-		        },
-		        {
-		            "id": "accept_and_add"
-		        }
-		    ]
-		}
-	],
-    "flow" : {
+    "images": {
+        "large": "./assets/appstore_large.png",
+        "small": "./assets/appstore_small.png"
+    },
+    "drivers": [
+        {
+            "id": "tv",
+            "class": "tv",
+            "capabilities": [],
+            "name": {
+                "en": "Samsung Smart TV"
+            },
+            "images": {
+                "large": "./drivers/tv/assets/large.png",
+                "small": "./drivers/tv/assets/small.png"
+            },
+            "pair": [
+                {
+                    "id": "enter_ip",
+                    "navigation": {
+                        "next": "accept_and_add"
+                    }
+                },
+                {
+                    "id": "accept_and_add"
+                }
+            ]
+        }
+    ],
+    "flow": {
+        "triggers": [
+            {
+                "id": "tv_became_available",
+                "title": {
+                    "en": "TV has been turned on",
+                    "nl": "TV is ingeschakeld"
+                },
+                "hint": {
+                    "en": "Usually triggered within the first 60 seconds after turning your TV on, since it take as while before the TV is responsive.",
+                    "nl": "Omdat het even duur voordat de TV bereikbaar is, wordt normaal gezien de flow getriggered binnen 60 seconden na het inschakelen van de TV."
+                },
+                "args": [
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    }
+                ]
+            },
+            {
+                "id": "tv_became_unavailable",
+                "title": {
+                    "en": "TV has been turned off",
+                    "nl": "TV is uitgeschakeld"
+                },
+                "hint": {
+                    "en": "Usually triggered within the 60 seconds after turning your TV off.",
+                    "nl": "Doorgaans getriggered binnen 60 seconden na het uitschakelen van de TV."
+                },
+                "args": [
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    }
+                ]
+            }
+        ],
+        "conditions": [
+            {
+                "id": "tv_is_available",
+                "title": {
+                    "en": "The TV !{{is|is not}} on",
+                    "nl": "De TV !{{is|is niet}} aan"
+                },
+                "args": [
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    }
+                ]
+            }
+        ],
         "actions": [
             {
-				"id": "set_channel",
-				"title": {
-					"en": "Set TV to channel",
+                "id": "set_channel",
+                "title": {
+                    "en": "Set TV to channel",
                     "nl": "Verander kanaal naar"
-				},
+                },
                 "args": [
-					{
-						"name": "tv",
-						"placeholder": {
-							"en": "TV"
-						},
-						"type": "device",
-						"filter": "driver_id=tv"
-					},
-					{
-						"name": "channel",
-						"placeholder": {
-							"en": "Channel",
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    },
+                    {
+                        "name": "channel",
+                        "placeholder": {
+                            "en": "Channel",
                             "nl": "Kanaal"
-						},
+                        },
                         "type": "autocomplete"
-					}
-				]
-			},
-			{
-				"id": "set_source",
-				"title": {
-					"en": "Set TV to source",
+                    }
+                ]
+            },
+            {
+                "id": "set_source",
+                "title": {
+                    "en": "Set TV to source",
                     "nl": "Verander input naar"
-				},
+                },
                 "args": [
-					{
-						"name": "tv",
-						"placeholder": {
-							"en": "TV"
-						},
-						"type": "device",
-						"filter": "driver_id=tv"
-					},
-					{
-						"name": "source",
-						"placeholder": {
-							"en": "Source",
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    },
+                    {
+                        "name": "source",
+                        "placeholder": {
+                            "en": "Source",
                             "nl": "Input"
-						},
+                        },
                         "type": "autocomplete"
-					}
-				]
-			},
+                    }
+                ]
+            },
             {
-				"id": "toggle_mute",
-				"title": {
-					"en": "Toggle mute",
+                "id": "toggle_mute",
+                "title": {
+                    "en": "Toggle mute",
                     "nl": "Dempen schakelen"
-				},
+                },
                 "args": [
-					{
-						"name": "tv",
-						"placeholder": {
-							"en": "TV"
-						},
-						"type": "device",
-						"filter": "driver_id=tv"
-					}
-				]
-			},
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    }
+                ]
+            },
             {
-				"id": "volume_up",
-				"title": {
-					"en": "Volume up",
+                "id": "volume_up",
+                "title": {
+                    "en": "Volume up",
                     "nl": "Volume verhogen"
-				},
+                },
                 "args": [
-					{
-						"name": "tv",
-						"placeholder": {
-							"en": "TV"
-						},
-						"type": "device",
-						"filter": "driver_id=tv"
-					}
-				]
-			},
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    }
+                ]
+            },
             {
-				"id": "volume_down",
-				"title": {
-					"en": "Volume down",
+                "id": "volume_down",
+                "title": {
+                    "en": "Volume down",
                     "nl": "Volume verlagen"
-				},
+                },
                 "args": [
-					{
-						"name": "tv",
-						"placeholder": {
-							"en": "TV"
-						},
-						"type": "device",
-						"filter": "driver_id=tv"
-					}
-				]
-			},
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    }
+                ]
+            },
             {
-				"id": "power_off",
-				"title": {
-					"en": "Power off",
+                "id": "power_off",
+                "title": {
+                    "en": "Power off",
                     "nl": "Uitschakelen"
-				},
+                },
                 "args": [
-					{
-						"name": "tv",
-						"placeholder": {
-							"en": "TV"
-						},
-						"type": "device",
-						"filter": "driver_id=tv"
-					}
-				]
-			}
+                    {
+                        "name": "tv",
+                        "placeholder": {
+                            "en": "TV"
+                        },
+                        "type": "device",
+                        "filter": "driver_id=tv"
+                    }
+                ]
+            }
         ]
     }
 }
