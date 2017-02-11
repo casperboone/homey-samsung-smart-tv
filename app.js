@@ -7,9 +7,9 @@ const SamsungTVSources = require("./samsung-tv-sources.js");
 const SamsungTVSmp2 = require("./samsung-tv-smp2.js");
 
 const self = module.exports = {
-    init() {
-        this.tvs = {};
+    tvs: [],
 
+    init() {
         // Update status of devices every 10 seconds
         // A flow card based on this can be added later,
         // then maybe the interval time should be decreased
@@ -20,7 +20,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.set_channel', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.tv.id];
+            const tv = self.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, result => {
@@ -38,7 +38,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.set_channel.channel.autocomplete', function (callback, args) {
             if (typeof args.args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.args.tv.id];
+            const tv = self.tvs[args.args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, result => {
@@ -71,7 +71,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.set_source', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.tv.id];
+            const tv = self.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, (result) => {
@@ -94,7 +94,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.set_source.source.autocomplete', (callback, args) => {
             if (typeof args.args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.args.tv.id];
+            const tv = self.tvs[args.args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, (result) => {
@@ -128,7 +128,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.toggle_mute', function (callback, args) {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.tv.id];
+            const tv = self.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, result => {
@@ -146,7 +146,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.volume_up', function (callback, args) {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.tv.id];
+            const tv = self.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, result => {
@@ -164,7 +164,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.volume_down', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.tv.id];
+            const tv = self.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, result => {
@@ -181,7 +181,7 @@ const self = module.exports = {
          */
         Homey.manager('flow').on('action.power_off', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            const tv = this.tvs[args.tv.id];
+            const tv = self.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
             deviceAvailable(tv.ip, result => {
@@ -197,7 +197,7 @@ const self = module.exports = {
 
     addDevice(ip, callback) {
         // Add to internal device array
-        this.tvs[ip] = {
+        self.tvs[ip] = {
             id: ip,
             ip: ip
         };
