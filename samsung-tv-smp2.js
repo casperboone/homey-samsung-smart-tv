@@ -1,13 +1,12 @@
 "use strict";
 
-var httpreq = require('httpreq');
-var xml2js = require('xml2js');
+const httpreq = require('httpreq');
+const xml2js = require('xml2js');
 
-var soapApiUrl = ":7676/smp_2_";
+const soapApiUrl = ":7676/smp_2_";
 
 class SamsungTVSmp2 {
     constructor(ip) {
-        Homey.log('smp2 '+ip);
         this.url = "http://" + ip + soapApiUrl;
     }
 
@@ -16,14 +15,14 @@ class SamsungTVSmp2 {
             timeout = 5000;
         }
 
-        httpreq.get(this.url, {timeout: timeout}, function (err, res) {
+        httpreq.get(this.url, {timeout: timeout}, (err, res) => {
             if (err) {
                 Homey.log("[GET TV INFO] " + err);
                 typeof callback === 'function' && callback(err, null);
                 return;
             }
 
-            xml2js.parseString(res.body, function (err, result) {
+            xml2js.parseString(res.body, (err, result) => {
                 if (err) {
                     Homey.log("[GET TV INFO] " + err);
                     typeof callback === 'function' && callback(err, null);
@@ -31,10 +30,10 @@ class SamsungTVSmp2 {
                 }
 
                 try {
-                    var tvInfo = {};
-                    var rawTvInfo = result['root']['device'][0];
+                    const tvInfo = {};
+                    const rawTvInfo = result['root']['device'][0];
 
-                    for (var key in rawTvInfo) {
+                    for (const key in rawTvInfo) {
                         if (rawTvInfo.hasOwnProperty(key)) {
                             tvInfo[key] = rawTvInfo[key][0];
                         }

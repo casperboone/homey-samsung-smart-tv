@@ -1,9 +1,9 @@
 "use strict";
 
-var httpreq = require('httpreq');
-var xml2js = require('xml2js');
+const httpreq = require('httpreq');
+const xml2js = require('xml2js');
 
-var soapApiUrl = ":7676/smp_4_";
+const soapApiUrl = ":7676/smp_4_";
 
 class SamsungTVSoapAPI {
     constructor(ip) {
@@ -23,14 +23,14 @@ class SamsungTVSoapAPI {
     }
 
     setMainTVSource(id, source, callback) {
-        var body = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMainTVSource xmlns:u="urn:samsung.com:service:MainTVAgent2:1"><Source>' + source + '</Source><ID>' + id + '</ID><UiID>-1</UiID></u:SetMainTVSource></s:Body></s:Envelope>';
+        const body = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMainTVSource xmlns:u="urn:samsung.com:service:MainTVAgent2:1"><Source>' + source + '</Source><ID>' + id + '</ID><UiID>-1</UiID></u:SetMainTVSource></s:Body></s:Envelope>';
 
         apiCall(this.url, 'SetMainTVSource', callback, body);
     }
 }
 
 function apiCall(url, soapAction, callback, alternativeBody) {
-    var body = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:' + soapAction + ' xmlns:u="urn:samsung.com:service:MainTVAgent2:1"></u:' + soapAction + '></s:Body></s:Envelope>';
+    let body = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:' + soapAction + ' xmlns:u="urn:samsung.com:service:MainTVAgent2:1"></u:' + soapAction + '></s:Body></s:Envelope>';
     if (alternativeBody) {
         body = alternativeBody;
     }

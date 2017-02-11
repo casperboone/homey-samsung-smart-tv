@@ -1,8 +1,8 @@
 "use strict";
 
-var httpreq = require('httpreq');
+const httpreq = require('httpreq');
 
-var channelListUrl = ":9090/BinaryBlob/1/ChannelList.dat";
+const channelListUrl = ":9090/BinaryBlob/1/ChannelList.dat";
 
 class Channel {
     constructor(number, name) {
@@ -34,16 +34,16 @@ class Channels {
             }
 
             // Ignore first 4 bits
-            var buffer = res.body.slice(4);
-            var buffers = [];
+            const buffer = res.body.slice(4);
+            const buffers = [];
 
             // Split buffers on 9x 00 followed by 04
             // Not the nicest way to do this probably, ideas welcome
-            var lastEnd = 0;
+            let lastEnd = 0;
 
-            for (var i = 10; i < buffer.length; i++) {
-                var split = true;
-                for (var x = i - 10; x < i - 1; x++) {
+            for (let i = 10; i < buffer.length; i++) {
+                let split = true;
+                for (let x = i - 10; x < i - 1; x++) {
                     if (buffer[x] !== 0x00) {
                         split = false;
                     }
@@ -63,10 +63,11 @@ class Channels {
             buffers.push(buffer.slice(lastEnd));
 
             // Find Channel information
-            buffers.forEach(channelBuffer => {
-                var channel = processChannelBuffer(channelBuffer);
+            for (let channelBuffer of buffers) {
+                const channel = processChannelBuffer(channelBuffer);
                 this.channels[channel.number] = channel;
-            });
+            }
+            ;
 
             typeof callback == 'function' && callback();
         });
@@ -80,8 +81,8 @@ function processChannelBuffer(channelBuffer) {
     // We assume that the max channel number is 999, and therefore check 3 bytes
 
     // Find channel number
-    var channelNumber = "";
-    for (var i = 12; i <= 14; i++) {
+    let channelNumber = "";
+    for (let i = 12; i <= 14; i++) {
         if (channelBuffer[i] != 0x00) {
             channelNumber += String.fromCharCode(channelBuffer[i]);
         }
@@ -91,8 +92,8 @@ function processChannelBuffer(channelBuffer) {
     channelNumber = Number(channelNumber);
 
     // Find channel name (on bytes 24 - 64)
-    var channelName = "";
-    for (var i = 24; i <= 64; i++) {
+    let channelName = "";
+    for (let i = 24; i <= 64; i++) {
         if (channelBuffer[i] === 0x00) {
             break;
         }

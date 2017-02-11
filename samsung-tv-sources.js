@@ -1,8 +1,8 @@
 "use strict";
 
-var SamsungTVSoapAPI = require("./samsung-tv-soap-api.js");
+const SamsungTVSoapAPI = require("./samsung-tv-soap-api.js");
 
-var xml2js = require('xml2js');
+const xml2js = require('xml2js');
 
 class Source {
     constructor(id, source, connected) {
@@ -40,7 +40,7 @@ class Sources {
             }
 
             try {
-                var sourceList = res['s:Envelope']['s:Body'][0]['u:GetSourceListResponse'][0]['SourceList'][0];
+                const sourceList = res['s:Envelope']['s:Body'][0]['u:GetSourceListResponse'][0]['SourceList'][0];
 
                 xml2js.parseString(sourceList, (err, res) => {
                         if (err) {
@@ -48,13 +48,14 @@ class Sources {
                             return;
                         }
 
-                        res['SourceList']['Source'].forEach(source => {
+                        for (let source of res['SourceList']['Source']) {
                             this.sources[source.ID[0]] = new Source(source.ID[0], source.SourceType[0], (source.Connected[0] == "Yes"));
-                        });
+                        }
+                        ;
 
                         // Add device info to description if available
                         this.api.getMBRDeviceList((err, res) => {
-                            var deviceList = res['s:Envelope']['s:Body'][0]['u:GetMBRDeviceListResponse'][0]['MBRDeviceList'][0];
+                            const deviceList = res['s:Envelope']['s:Body'][0]['u:GetMBRDeviceListResponse'][0]['MBRDeviceList'][0];
 
                             xml2js.parseString(deviceList, (err, res) => {
                                 if (err) {
@@ -62,13 +63,13 @@ class Sources {
                                     return;
                                 }
 
-                                var devices = res['MBRDeviceList']['MBRDevice'];
+                                const devices = res['MBRDeviceList']['MBRDevice'];
                                 if (devices) {
-                                    devices.forEach(device => {
+                                    for (let device of devices) {
                                         if (this.sources[device.ID[0]]) {
                                             this.sources[device.ID[0]].appendToDescription(" - " + device.DeviceType[0] + " - " + device.BrandName[0]);
                                         }
-                                    });
+                                    }
                                 }
                             });
                         });

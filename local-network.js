@@ -1,6 +1,6 @@
 "use strict";
 
-var networkInterface = getInterface();
+const networkInterface = getInterface();
 
 module.exports = {
     mac() {
@@ -13,8 +13,8 @@ module.exports = {
 }
 
 function getInterface() {
-    var ifaces = require('os').networkInterfaces();
-    var result = "0.0.0.0";
+    const ifaces = require('os').networkInterfaces();
+    let result = "0.0.0.0";
 
     Object.keys(ifaces).forEach((ifname) => {
         ifaces[ifname].forEach((iface) => {

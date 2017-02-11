@@ -1,201 +1,143 @@
 "use strict";
 
-var SamsungTVChannels = require("./samsung-tv-channels.js");
-var SamsungTVRemote = require("./samsung-tv-remote.js");
-var SamsungTVSoapAPI = require("./samsung-tv-soap-api.js");
-var SamsungTVSources = require("./samsung-tv-sources.js");
-var SamsungTVSmp2 = require("./samsung-tv-smp2.js");
+const SamsungTVChannels = require("./samsung-tv-channels.js");
+const SamsungTVRemote = require("./samsung-tv-remote.js");
+const SamsungTVSoapAPI = require("./samsung-tv-soap-api.js");
+const SamsungTVSources = require("./samsung-tv-sources.js");
+const SamsungTVSmp2 = require("./samsung-tv-smp2.js");
 
-var self = module.exports = {
-
-    init: function () {
-
-        self.tvs = {};
+const self = module.exports = {
+    init() {
+        this.tvs = {};
 
         // Update status of devices every 10 seconds
         // A flow card based on this can be added later,
         // then maybe the interval time should be decreased
         setInterval(devicesUpdateAvailability, 10000);
 
-
         /**
          * FLOW: Set Channel
          */
-        Homey.manager('flow').on('action.set_channel', function (callback, args) {
-
+        Homey.manager('flow').on('action.set_channel', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.tv.id];
+            const tv = this.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, result => {
                 if (result) {
-
                     tv.remote.setChannel(args.channel.channelNumber);
-
                     callback(null, true);
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
+                callback("TV offline");
             });
-
         });
 
         /**
          * FLOW: [autocomplete] Set Channel
          */
         Homey.manager('flow').on('action.set_channel.channel.autocomplete', function (callback, args) {
-
             if (typeof args.args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.args.tv.id];
+            const tv = this.tvs[args.args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, result => {
                 if (result) {
+                    let channelsAutoComplete = [];
 
-                    var channelsAutoComplete = [];
-
-                    for (var key in tv.channels.all()) {
-
+                    for (let key in tv.channels.all()) {
                         if (tv.channels.all().hasOwnProperty(key)) {
-
-                            var channel = tv.channels.get(key);
-
+                            const channel = tv.channels.get(key);
                             channelsAutoComplete.push({
                                 name: channel.number + '. ' + channel.name,
                                 channelNumber: channel.number
                             });
                         }
-
                     }
 
-                    channelsAutoComplete = channelsAutoComplete.filter(function (channel) {
+                    channelsAutoComplete = channelsAutoComplete.filter(channel => {
                         return channel.name.toLowerCase().indexOf(args.query.toLowerCase()) > -1;
                     })
 
                     callback(null, channelsAutoComplete);
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
+                callback("TV offline");
             });
-
         });
 
         /**
          * FLOW: Set Source
          */
-        Homey.manager('flow').on('action.set_source', function (callback, args) {
-
+        Homey.manager('flow').on('action.set_source', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.tv.id];
+            const tv = this.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, (result) => {
                 if (result) {
-
-                    tv.soapApi.setMainTVSource(args.source.id, args.source.source, function (err, res) {
-
+                    tv.soapApi.setMainTVSource(args.source.id, args.source.source, (err, res) => {
                         if (err) {
-
                             callback(null, false);
-
-                        } else {
-
-                            callback(null, true);
-
+                            return;
                         }
-
+                        callback(null, true);
                     });
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
+                callback("TV offline");
             });
-
         });
 
         /**
          * FLOW: [autocomplete] Set Source
          */
-        Homey.manager('flow').on('action.set_source.source.autocomplete', function (callback, args) {
-
+        Homey.manager('flow').on('action.set_source.source.autocomplete', (callback, args) => {
             if (typeof args.args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.args.tv.id];
+            const tv = this.tvs[args.args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, (result) => {
                 if (result) {
+                    let sourcesAutoComplete = [];
 
-                    var sourcesAutoComplete = [];
-
-                    for (var key in tv.sources.all()) {
-
+                    for (let key in tv.sources.all()) {
                         if (tv.sources.all().hasOwnProperty(key)) {
-
-                            var source = tv.sources.get(key);
-
+                            const source = tv.sources.get(key);
                             sourcesAutoComplete.push({
                                 name: source.description,
                                 id: source.id,
                                 source: source.source
                             });
                         }
-
                     }
 
-                    sourcesAutoComplete = sourcesAutoComplete.filter(function (source) {
+                    sourcesAutoComplete = sourcesAutoComplete.filter(source => {
                         return source.name.toLowerCase().indexOf(args.query.toLowerCase()) > -1;
                     })
 
                     callback(null, sourcesAutoComplete);
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
+                callback("TV offline");
             });
-
         });
 
         /**
          * FLOW: Toggle Mute
          */
         Homey.manager('flow').on('action.toggle_mute', function (callback, args) {
-
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.tv.id];
+            const tv = this.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, result => {
                 if (result) {
-
                     tv.remote.mute();
-
                     callback(null, true);
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
+                callback("TV offline");
             });
         });
 
@@ -203,196 +145,139 @@ var self = module.exports = {
          * FLOW: Volume Up
          */
         Homey.manager('flow').on('action.volume_up', function (callback, args) {
-
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.tv.id];
+            const tv = this.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, result => {
                 if (result) {
-
                     tv.remote.volumeUp();
-
                     callback(null, true);
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
+                callback("TV offline");
             });
         });
 
         /**
          * FLOW: Volume Down
          */
-        Homey.manager('flow').on('action.volume_down', function (callback, args) {
-
+        Homey.manager('flow').on('action.volume_down', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.tv.id];
+            const tv = this.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, result => {
                 if (result) {
-
                     tv.remote.volumeDown();
                     callback(null, true);
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
             });
-
         });
 
         /**
          * FLOW: Power Off
          */
-        Homey.manager('flow').on('action.power_off', function (callback, args) {
-
+        Homey.manager('flow').on('action.power_off', (callback, args) => {
             if (typeof args.tv == 'undefined') return callback("Select a TV");
-            var tv = self.tvs[args.tv.id];
+            const tv = this.tvs[args.tv.id];
             if (typeof tv == 'undefined') return callback("TV not connected");
 
-            deviceAvailable(tv.ip, function (result) {
-
+            deviceAvailable(tv.ip, result => {
                 if (result) {
-
                     tv.remote.powerOff();
                     callback(null, true);
-
-                } else {
-
-                    callback("TV offline");
-
+                    return;
                 }
-
+                callback("TV offline");
             });
-
         });
     },
 
-    addDevice: function (ip, callback) {
-
+    addDevice(ip, callback) {
         // Add to internal device array
-        self.tvs[ip] = {
+        this.tvs[ip] = {
             id: ip,
             ip: ip
         };
 
         deviceAvailable(ip, callback)
-
     }
-
 }
 
 /**
  * Returns true  device is available.
  */
 function deviceAvailable(ip, callback) {
-
     // Was it available in the last check, then we assume it still is
     if (self.tvs[ip].available) {
-
         callback(true);
-
-    } else {
-
-        deviceUpdateAvailability(ip, function (res) {
-
-            Homey.log("CALLED BACK! WITH" + res);
-            callback(res);
-
-        });
-
+        return;
     }
 
-
+    deviceUpdateAvailability(ip, function (res) {
+        Homey.log("DEVICE " + ip + " STATUS: " + res);
+        callback(res);
+    });
 }
 
 /**
  * Update the availability of a device by trying to get details about it.
  */
 function deviceUpdateAvailability(ip, callback) {
-
     Homey.log("DUA:step0");
 
-    var tv = self.tvs[ip];
-    var smp2 = new SamsungTVSmp2(ip);
+    const tv = self.tvs[ip];
+    const smp2 = new SamsungTVSmp2(ip);
 
-    smp2.getTVInfo(function (err, data) {
+    smp2.getTVInfo((err, data) => {
         Homey.log("DUA:step1");
-
         if (err) {
-
             Homey.log("DUA:step1.5");
 
             tv.available = false;
             Homey.manager('drivers').getDriver('tv').setUnavailable({id: ip, ip: ip});
 
             callback(false);
-
-        } else {
-
-            Homey.log("DUA:step2");
-
-            if (!tv.available) {
-
-                Homey.log("DUA:step3");
-
-                tv.available = true;
-
-                Homey.manager('drivers').getDriver('tv').setAvailable({id: ip, ip: ip});
-
-                // Set remote, smp2 and soap api instance
-                tv.remote = new SamsungTVRemote(ip);
-                tv.soapApi = new SamsungTVSoapAPI(ip);
-                tv.smp2 = smp2;
-
-                // Retrieve sources
-                tv.sources = new SamsungTVSources(ip);
-
-                Homey.log("DUA:step4");
-
-                // Retrieve channels by first making sure channel list is available
-                tv.soapApi.getChannelListURL(function () {
-                    setTimeout(() => {
-                        tv.channels = new SamsungTVChannels(ip, function () {
-
-                            Homey.log("CHANNELS CALLED BACK");
-                            callback(true);
-
-                        });
-                    }, 2500);
-                });
-
-            }
+            return;
         }
+        Homey.log("DUA:step2");
+        if (!tv.available) {
+            Homey.log("DUA:step3");
+            tv.available = true;
+            Homey.manager('drivers').getDriver('tv').setAvailable({id: ip, ip: ip});
 
+            // Set remote, smp2 and soap api instance
+            tv.remote = new SamsungTVRemote(ip);
+            tv.soapApi = new SamsungTVSoapAPI(ip);
+            tv.smp2 = smp2;
+
+            // Retrieve sources
+            tv.sources = new SamsungTVSources(ip);
+
+            Homey.log("DUA:step4");
+            // Retrieve channels by first making sure channel list is available
+            tv.soapApi.getChannelListURL(() => {
+                setTimeout(() => {
+                    tv.channels = new SamsungTVChannels(ip, () => {
+                        Homey.log("CHANNELS LIST RECEIVED");
+                        callback(true);
+                    });
+                }, 2500);
+            });
+        }
     }, 2000); // Time it out after 2 seconds of loading
-
 }
 
 /**
  * Update availability status of all devices.
  */
 function devicesUpdateAvailability() {
-
-    for (var key in self.tvs) {
-
+    for (const key in self.tvs) {
         if (self.tvs.hasOwnProperty(key)) {
-
-            deviceUpdateAvailability(self.tvs[key].ip, function () {
+            deviceUpdateAvailability(self.tvs[key].ip, () => {
             });
-
         }
-
     }
-
 }

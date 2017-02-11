@@ -4,8 +4,8 @@
  * Wrapper around samsung-remote
  */
 
-var SamsungRemote = require('./samsung-remote/samsung-remote.js');
-var LocalNetwork = require('./local-network.js');
+const SamsungRemote = require('./samsung-remote/samsung-remote.js');
+const LocalNetwork = require('./local-network.js');
 
 class Remote {
     constructor(ip) {
@@ -24,9 +24,9 @@ class Remote {
             return new Error("Channel number is not a number");
         }
 
-        var channelNumberArray = new String(channelNumber);
+        const channelNumberArray = new String(channelNumber);
 
-        for (var i = 0; i < channelNumberArray.length; i++) {
+        for (let i = 0; i < channelNumberArray.length; i++) {
             this.sendKey("KEY_" + channelNumberArray[i]);
         }
     }

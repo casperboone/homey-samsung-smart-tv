@@ -38,46 +38,33 @@
 	
 	// Display message to the user
 	function displayMessage(text, remove) {
-		
 		if (msgPromise != null) {
-			
 			clearTimeout(msgPromise);
-			
 		}
 		
 		$('#messageContent').text(text);
 		$('#message').slideDown();
 		
 		if (remove) {
-			
 			msgPromise = setTimeout(function() {
-				
 				$('#messageContent').text('');
 				$('#message').slideUp();
-				
 			}, 5000);
-			
 		}
-		
 	}
 	
 	// Save the network configuration
 	function connectToTV(form) {
-		
 		var ip = $('#sstvIp').val();
-		
 		$('#search_button').prop('disabled', true);
         
 		displayMessage("Connecting to Samsung Smart TV on " + ip, false);
 		
         Homey.emit('ip_entered', { 'ip': ip }, function(err, data) {
-			
             if (err) {
-				
                 displayMessage("TV on " + $('#sstvIp').val() + " was not found or is it not compatible.", true);
                 $('#search_button').prop('disabled', false);
                 $('#sstvIp').val('');
-				
             } else if (data) {
                 window.tvInfo = data;
 				
@@ -93,22 +80,14 @@
 				});
 				
                 Homey.showView('accept_and_add');
-				
             } else {
-				
                 displayMessage("An unknown error occurred.", true);
                 $('#search_button').prop('disabled', false);
                 $('#sstvIp').val('');
-				
             }
-			
 		});
-        
 	}
-    
-    console.log("aaa");
-   
-</script> 
+</script>
 
 <fieldset id="message" class="message">
 	<legend>Message</legend>
@@ -119,7 +98,7 @@
 	<legend>Samsung Smart TV</legend>
     
 	<form name="networkForm" class="network" action="javascript: connectToTV(networkForm)">
-		<div class="oneline"><label for="network-ip"> IP Address</label><input class="network-input network-ip regular" id="sstvIp" placeholder="0.0.0.0" ng-pattern="/^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$/" required/></div>
+		<div class="oneline"><label for="sstvIp"> IP Address</label><input class="network-input network-ip regular" id="sstvIp" placeholder="0.0.0.0" ng-pattern="/^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$/" required/></div>
 		<p></p>
 		<button type="submit" id="search_button" class="button">Connect to TV</button>
 	</form>
